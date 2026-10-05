@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     unit_price REAL NOT NULL,
     quantity INTEGER NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(order_id),
-    FOREIGN KEY (menu_item_id) REFERENCES menu_items(id)
+    FOREIGN KEY (menu_item_id) REFERENCES (menu_items_id)
 )
 """)
 

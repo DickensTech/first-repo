@@ -1,13 +1,29 @@
-from flask import Flask, redirect, url_for, render_template, request
+from flask import Flask, redirect, url_for, render_template, request, session
 import json
+import os
+import re
+import secrets
 import sqlite3
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 app=Flask(__name__)
+app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY') or secrets.token_hex(32)
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
 
 def ensure_database_schema():
     conn = sqlite3.connect('database.db')
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL COLLATE NOCASE UNIQUE,
+            password_hash TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
     columns = [row[1] for row in conn.execute('PRAGMA table_info(orders)').fetchall()]
     if 'order_type' not in columns:
         conn.execute("ALTER TABLE orders ADD COLUMN order_type TEXT DEFAULT 'Delivery'")
@@ -40,6 +56,78 @@ def menu_html():
 @app.route('/')
 def home():
     return render_template('template.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        data = request.get_json(silent=True)
+        data = data if isinstance(data, dict) else request.form
+        email = str(data.get('email', '')).strip().lower()
+        password = str(data.get('password', ''))
+
+        if not email or not password:
+            return {'error': 'Enter your email address and password.'}, 400
+
+        conn = get_db_connection()
+        user = conn.execute(
+            'SELECT user_id, name, password_hash FROM users WHERE email = ?',
+            (email,),
+        ).fetchone()
+        conn.close()
+
+        if user is None or not check_password_hash(user['password_hash'], password):
+            return {'error': 'Email or password is incorrect.'}, 401
+
+        session.clear()
+        session['user_id'] = user['user_id']
+        session['user_name'] = user['name']
+        return {'message': f'Welcome back, {user["name"]}.'}
+
+    return render_template('login.html')
+
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json(silent=True)
+    data = data if isinstance(data, dict) else request.form
+    name = str(data.get('name', '')).strip()
+    email = str(data.get('email', '')).strip().lower()
+    password = str(data.get('password', ''))
+    confirm_password = str(data.get('confirm_password', ''))
+
+    if not name or len(name) > 120:
+        return {'error': 'Enter a name between 1 and 120 characters.'}, 400
+    if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+', email) or len(email) > 254:
+        return {'error': 'Enter a valid email address.'}, 400
+    if len(password) < 8 or len(password) > 128:
+        return {'error': 'Your password must be between 8 and 128 characters.'}, 400
+    if password != confirm_password:
+        return {'error': 'Passwords do not match.'}, 400
+
+    conn = get_db_connection()
+    try:
+        cursor = conn.execute(
+            'INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)',
+            (name, email, generate_password_hash(password)),
+        )
+        conn.commit()
+    except sqlite3.IntegrityError:
+        conn.rollback()
+        return {'error': 'An account with that email already exists.'}, 409
+    finally:
+        conn.close()
+
+    session.clear()
+    session['user_id'] = cursor.lastrowid
+    session['user_name'] = name
+    return {'message': f'Account created. Welcome, {name}.'}, 201
+
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.clear()
+    return redirect(url_for('home'))
 
 
 @app.route('/about')

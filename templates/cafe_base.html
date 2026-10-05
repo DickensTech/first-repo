@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block page %}
+    {% block navigation %}
+    <nav class="navbar">
+        <h1 class="logo">Dickens Cafe</h1>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('menu') }}">Menu</a></li>
+            <li><a href="{{ url_for('order') }}">Order</a></li>
+            <li><a href="{{ url_for('track_order') }}">Track Order</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            {% if session.get('user_id') %}
+            <li><span class="nav-user">Hello, {{ session.get('user_name') }}</span></li>
+            <li>
+                <form action="{{ url_for('logout') }}" method="post">
+                    <button class="nav-logout" type="submit">Sign out</button>
+                </form>
+            </li>
+            {% else %}
+            <li><a href="{{ url_for('login') }}">Sign in</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+
+    {% block footer %}
+    <footer>
+        <p>&copy; 2026 Dickens Cafe &amp; Restaurant</p>
+    </footer>
+    {% endblock %}
+{% endblock %}

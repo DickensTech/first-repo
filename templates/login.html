@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In | Dickens Cafe{% endblock %}
+
+{% block page %}
+<main class="auth-page">
+	<section class="auth-story" aria-label="Dickens Cafe">
+		<a class="auth-brand" href="{{ url_for('home') }}" aria-label="Dickens Cafe home">
+			<span class="auth-brand-mark" aria-hidden="true">D</span>
+			<span>Dickens <span>Cafe</span></span>
+		</a>
+		<div class="auth-story-copy">
+			<p class="auth-eyebrow">A seat at our table</p>
+			<h1>Good food.<br>Good company.</h1>
+			<p>Make yourself at home. Your next favorite meal is just around the corner.</p>
+		</div>
+		<p class="auth-photo-caption">Freshly made, always worth gathering for.</p>
+	</section>
+
+	<section class="auth-content" aria-labelledby="auth-heading">
+		<a class="auth-back" href="{{ url_for('home') }}"><span aria-hidden="true">&larr;</span> Back to home</a>
+
+		<div class="auth-form-wrap">
+			<p class="auth-eyebrow auth-eyebrow-warm">WELCOME TO DICKENS</p>
+			<h2 id="auth-heading">Come on in.</h2>
+			<p class="auth-subtitle">Sign in or create an account to get started.</p>
+
+			<div class="auth-switch" role="tablist" aria-label="Choose sign-in or registration">
+				<button class="auth-tab is-active" id="login-tab" type="button" role="tab" aria-selected="true" aria-controls="login-panel" data-auth-mode="login">Sign in</button>
+				<button class="auth-tab" id="register-tab" type="button" role="tab" aria-selected="false" aria-controls="register-panel" data-auth-mode="register" tabindex="-1">Create account</button>
+				<span class="auth-switch-indicator" aria-hidden="true"></span>
+			</div>
+
+			<form class="auth-form" id="login-panel" role="tabpanel" aria-labelledby="login-tab" data-auth-form="login" novalidate>
+				<label for="login-email">Email address</label>
+				<input id="login-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+
+				<div class="auth-label-row">
+					<label for="login-password">Password</label>
+					<a class="auth-text-link" href="#" data-local-link>Forgot password?</a>
+				</div>
+				<div class="auth-password-field">
+					<input id="login-password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+					<button class="auth-password-toggle" type="button" data-password-target="login-password" aria-label="Show password">Show</button>
+				</div>
+
+				<label class="auth-check-row">
+					<input type="checkbox" name="remember">
+					<span>Keep me signed in</span>
+				</label>
+				<button class="auth-submit" type="submit">Sign in <span aria-hidden="true">&rarr;</span></button>
+			</form>
+
+			<form class="auth-form" id="register-panel" role="tabpanel" aria-labelledby="register-tab" data-auth-form="register" hidden novalidate>
+				<label for="register-name">Your name</label>
+				<input id="register-name" name="name" type="text" placeholder="How should we call you?" autocomplete="name" required>
+
+				<label for="register-email">Email address</label>
+				<input id="register-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+
+				<label for="register-password">Create a password</label>
+				<div class="auth-password-field">
+					<input id="register-password" name="password" type="password" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required>
+					<button class="auth-password-toggle" type="button" data-password-target="register-password" aria-label="Show password">Show</button>
+				</div>
+
+				<label for="register-confirm">Confirm password</label>
+				<div class="auth-password-field">
+					<input id="register-confirm" name="confirm_password" type="password" placeholder="Enter your password again" autocomplete="new-password" required>
+					<button class="auth-password-toggle" type="button" data-password-target="register-confirm" aria-label="Show password">Show</button>
+				</div>
+
+				<label class="auth-check-row">
+					<input id="terms-check" type="checkbox" required>
+					<span>I agree to the <a class="auth-text-link" href="#" data-local-link>terms and privacy policy</a>.</span>
+				</label>
+				<button class="auth-submit" type="submit">Create account <span aria-hidden="true">&rarr;</span></button>
+			</form>
+
+			<p class="auth-feedback" id="auth-feedback" role="status" aria-live="polite" hidden></p>
+			<p class="auth-footnote">By continuing, you agree to enjoy the good things.</p>
+		</div>
+	</section>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/login.js') }}" defer></script>
+{% endblock %}

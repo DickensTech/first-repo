@@ -1,35 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "cafe_base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}Contact Us - Dickens Cafe{% endblock %}
 
-    <title>Contact Us - Masrur Cafe</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-
-<body>
+{% block content %}
 
     <!-- Navigation -->
-    <nav class="navbar">
-
-        <h1 class="logo">Dickens Cafe</h1>
-
-        <ul>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('menu') }}">Menu</a></li>
-            <li><a href="{{ url_for('order') }}">Order</a></li>
-            <li><a href="{{ url_for('track_order') }}">Track Order</a></li>
-            <li><a href="{{ url_for('about') }}">About Us</a></li>
-            <li><a href="{{ url_for('contact') }}">Contact</a></li>
-        </ul>
-
-    </nav>
-
-
     <!-- Contact -->
     <section class="contact">
 
@@ -73,9 +48,4 @@
     </section>
 
 
-    <footer>
-        <p>&copy; 2026 Dickens Cafe & Restaurant</p>
-    </footer>
-
-</body>
-</html>
+{% endblock %}

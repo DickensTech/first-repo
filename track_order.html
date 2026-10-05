@@ -5,98 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Track Your Order</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 550px;
-            margin: 60px auto;
-            background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .intro {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-
-        button {
-            width: 100%;
-            padding: 13px;
-            margin-top: 15px;
-            background: orange;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: darkorange;
-        }
-
-        .order-result {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f8f8;
-            border-radius: 8px;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 8px 15px;
-            background: orange;
-            color: white;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        .back {
-            display: block;
-            text-align: center;
-            margin-top: 25px;
-            color: #333;
-            text-decoration: none;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 
 <body>
 
+<main class="tracking-page">
 <div class="container">
 
     <h1>Track Your Order 🔎</h1>
@@ -170,6 +84,7 @@
     </a>
 
 </div>
+</main>
 
 </body>
 </html>

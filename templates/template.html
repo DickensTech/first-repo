@@ -1,38 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "cafe_base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}Dickens Cafe &amp; Restaurant{% endblock %}
 
-    <title>Dickens Cafe & Restaurant</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-
-<body>
-
-    <nav class="navbar">
-
-        <h1 class="logo">Dickens Cafe</h1>
-
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/menu">Menu</a></li>
-            <li><a href="/order">Order</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
-
-    </nav>
-
+{% block content %}
 
     <section class="hero">
 
         <div class="hero-content">
 
-            <h2>Welcome to Dickens Cafe & Restaurant</h2>
+            <h2>Welcome to Dickens Cafe &amp; Restaurant</h2>
 
             <p>
                 Delicious food, refreshing drinks
@@ -40,13 +16,13 @@
             </p>
 
             <div class="hero-actions">
-                <a href="/menu" class="button">
+                <a href="{{ url_for('menu') }}" class="button">
                     View Menu
                 </a>
-                <a href="/track-order" class="track-button">
+                <a href="{{ url_for('track_order') }}" class="track-button">
                     Track Order
                 </a>
-                <a href="/admin/dashboard" class="admin-button">
+                <a href="{{ url_for('admin_dashboard') }}" class="admin-button">
                     Admin Dashboard
                 </a>
             </div>
@@ -86,20 +62,11 @@
             ingredients.
         </p>
 
-        <a href="/about" class="button">
+        <a href="{{ url_for('about') }}" class="button">
             Learn More
         </a>
 
     </section>
 
 
-    <footer>
-
-        <p>
-            &copy; 2026 Dickens Cafe & Restaurant
-        </p>
-
-    </footer>
-
-</body>
-</html>
+{% endblock %}
